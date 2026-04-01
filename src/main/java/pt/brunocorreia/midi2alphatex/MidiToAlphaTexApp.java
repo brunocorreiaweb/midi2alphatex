@@ -59,6 +59,7 @@ void main() {
       transmitter.setReceiver(myReceiver);
 
       IO.println("🚀 Listening for notes... Play something on your MIDI controller!");
+      IO.println("Open https://solo-music.dev-tools.pt/edit-alphatex/render for AlphaTex WebSocket Renderer");
       IO.println("(Press Ctrl+C to stop)");
 
       // Keep the main thread alive while the background MIDI thread works
