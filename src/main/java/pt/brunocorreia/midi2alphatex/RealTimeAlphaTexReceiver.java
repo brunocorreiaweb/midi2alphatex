@@ -29,28 +29,46 @@ public class RealTimeAlphaTexReceiver extends WebSocketServer implements Receive
         String note = mapMidiToDrum(sm.getData1());
 
         if (lastNoteTime != -1) {
+
           long deltaMs = currentTime - lastNoteTime;
 
           // 1. Calculate the duration of the PREVIOUS note
           String duration = quantizeDuration(deltaMs);
 
-          // 2. Track measure progress (Quarter note = 0.25)
-          updateMeasure(duration);
+          if (duration.equals(":64")) {
+            String last = alphaTexBuffer.removeLast();
+            boolean addPipe = false;
+            if (last.contains("|")) {
+              addPipe = true;
+              last = alphaTexBuffer.removeLast();
+            }
 
-          // 3. Add to buffer
-          String last = alphaTexBuffer.removeLast();
-          boolean addPipe = false;
-          if (last.contains("|")) {
-            addPipe = true;
-            last = alphaTexBuffer.removeLast();
-          }
+            alphaTexBuffer.add("(" + last + " " + note + ")");
+            if (addPipe) {
+              alphaTexBuffer.add("|");
+            }
+          } else {
 
-          alphaTexBuffer.add(duration + " " + last);
-          if (addPipe) {
-            alphaTexBuffer.add("|");
+            // 2. Track measure progress (Quarter note = 0.25)
+            updateMeasure(duration);
+
+            // 3. Add to buffer
+            String last = alphaTexBuffer.removeLast();
+            boolean addPipe = false;
+            if (last.contains("|")) {
+              addPipe = true;
+              last = alphaTexBuffer.removeLast();
+            }
+
+            alphaTexBuffer.add(duration + " " + last);
+            if (addPipe) {
+              alphaTexBuffer.add("|");
+            }
+            alphaTexBuffer.add(note);
           }
+        } else {
+          alphaTexBuffer.add(note);
         }
-        alphaTexBuffer.add(note);
 
         // Print updated string
         System.out.print("\rAlphaTex: " + String.join(" ", alphaTexBuffer));
