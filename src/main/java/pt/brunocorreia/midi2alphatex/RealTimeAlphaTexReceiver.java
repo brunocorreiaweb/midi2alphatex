@@ -38,13 +38,17 @@ public class RealTimeAlphaTexReceiver extends WebSocketServer implements Receive
           updateMeasure(duration);
 
           // 3. Add to buffer
-
           String last = alphaTexBuffer.removeLast();
+          boolean addPipe = false;
           if (last.contains("|")) {
-            last = alphaTexBuffer.removeLast() + " |";
+            addPipe = true;
+            last = alphaTexBuffer.removeLast();
           }
 
-          alphaTexBuffer.add(duration + " " + last + " ");
+          alphaTexBuffer.add(duration + " " + last);
+          if (addPipe) {
+            alphaTexBuffer.add("|");
+          }
         }
         alphaTexBuffer.add(note);
 
