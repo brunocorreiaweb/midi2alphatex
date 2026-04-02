@@ -301,11 +301,11 @@ If notes seem delayed or out of order:
 
 ## License
 
-This project is part of the Solo Music development tools suite.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
-## Author
+You are free to use, modify, and distribute this software in your own projects, whether commercial or personal.
 
-Bruno Correia
+**Copyright (c) 2026 Bruno Correia**
 
 ## Links
 
